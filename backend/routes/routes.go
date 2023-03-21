@@ -18,9 +18,12 @@ func Routes(db *gorm.DB) *gin.Engine {
 			"message": "Server running successfully bro!",
 		})
 	})
-	
+
 	r.POST("/article", handlers.CreatePost)
-	
+	r.GET("/article", handlers.GetPosts)
+	r.GET("/article/:id", handlers.GetPostById)
+	r.PATCH("/article/:id", handlers.UpdatePost)
+	r.DELETE("/article/:id", handlers.DeletePost)
 
 	return r
 }
