@@ -15,11 +15,12 @@ func Routes(db *gorm.DB) *gin.Engine {
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Server running successfully",
+			"message": "Server running successfully bro!",
 		})
 	})
 	
 	r.POST("/article", handlers.CreatePost)
+	
 
 	return r
 }

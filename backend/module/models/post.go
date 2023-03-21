@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	validation "github.com/go-ozzo/ozzo-validation"
+)
 
 type Post struct {
 	ID 					int64 `json:"id" gorm:"primary_key;auto_increment"`
@@ -13,8 +17,16 @@ type Post struct {
 }
 
 type PostInput struct {
-	Title			string `binding:"required"`
-	Content			string `binding:"required"`
-	Category		string `binding:"required"`
-	Status			string `binding:"required"`
+	Title			string
+	Content			string
+	Category		string
+	Status			string
+}
+
+func (p PostInput) Validate() error {
+	return validation.ValidateStruct(&p,
+		validation.Field(&p.Title, validation.Required, validation.Length(20, 0)),
+		validation.Field(&p.Content, validation.Required, validation.Length(20, 0)),
+		validation.Field(&p.Category, validation.Required, validation.Length(3, 0)),
+	)
 }
