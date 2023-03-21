@@ -1,9 +1,12 @@
 package main
 
 import (
+	"backend-rest-api/config"
 	"backend-rest-api/routes"
 )
 
 func main(){
-	routes.Routes()
+	db := config.InitDB()
+	r := routes.Routes(db)
+	r.Run()
 }
