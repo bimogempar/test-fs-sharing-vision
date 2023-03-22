@@ -10,10 +10,12 @@ const { useBreakpoint } = Grid;
 const Root = () => {
     const screens = useBreakpoint();
     const [messageApi, contextHolder] = message.useMessage();
+    const [loadingTable, setLoadingTable] = useState(false);
     const [filter, setFilter] = useState('publish');
     const [data, setData] = useState([]);
 
     const fetchTable = () => {
+        setLoadingTable(true);
         axios.get(`${process.env.REACT_APP_BE_URL}article`)
             .then(res => {
                 const { data: { data: newData, message } } = res
@@ -34,6 +36,7 @@ const Root = () => {
                 } else {
                     setData([]);
                 }
+                setLoadingTable(false);
                 messageApi.open({
                     type: 'success',
                     content: message,
@@ -79,6 +82,7 @@ const Root = () => {
                         span={24}
                     >
                         <TablePosts
+                            loading={loadingTable}
                             columns={ColumnTablePostData}
                             data={data}
                         />
