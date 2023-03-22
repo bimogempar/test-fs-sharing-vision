@@ -1,14 +1,12 @@
-import { Col, Row, Typography, Tabs, Grid, message } from 'antd';
+import { Col, Row, Typography, Tabs, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import TablePosts from '../components/TablePosts';
 import { ColumnTablePostData } from '../settings/ColumnTablePostData';
 import { OptionTab } from '../settings/OptionTab';
 import axios from 'axios';
 const { Title } = Typography;
-const { useBreakpoint } = Grid;
 
 const Root = () => {
-    const screens = useBreakpoint();
     const [messageApi, contextHolder] = message.useMessage();
     const [loadingTable, setLoadingTable] = useState(false);
     const [filter, setFilter] = useState('publish');
@@ -56,40 +54,30 @@ const Root = () => {
     }, [filter])
 
     return (
-        <Row
-            style={{ padding: screens.lg ? '15px' : 0 }}
-            justify="center"
-        >
+        <>
+            <Title level={2}>All Posts</Title>
             {contextHolder}
-            <Col
-                span={24}
-                lg={20}
-                xl={16}
-                style={{ padding: '15px' }}
-            >
-                <Title level={2}>All Posts</Title>
-                <Row>
-                    <Tabs
-                        defaultActiveKey="1"
-                        type="card"
-                        size={'small'}
-                        items={OptionTab}
-                        onChange={(e) => setFilter(e)}
+            <Row>
+                <Tabs
+                    defaultActiveKey="1"
+                    type="card"
+                    size={'small'}
+                    items={OptionTab}
+                    onChange={(e) => setFilter(e)}
+                />
+            </Row>
+            <Row>
+                <Col
+                    span={24}
+                >
+                    <TablePosts
+                        loading={loadingTable}
+                        columns={ColumnTablePostData}
+                        data={data}
                     />
-                </Row>
-                <Row>
-                    <Col
-                        span={24}
-                    >
-                        <TablePosts
-                            loading={loadingTable}
-                            columns={ColumnTablePostData}
-                            data={data}
-                        />
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
+                </Col>
+            </Row>
+        </>
     )
 }
 

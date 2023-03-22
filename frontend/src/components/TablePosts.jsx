@@ -11,6 +11,9 @@ const TablePosts = ({
             loading={loading}
             columns={columns}
             dataSource={data}
+            scroll={{
+                x: 100
+            }}
         />
     )
 }
