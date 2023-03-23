@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Typography } from 'antd';
-import { useLocation } from 'react-router-dom';
+import { Button, Col, Form, Input, message, Row, Typography } from 'antd';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -8,6 +8,9 @@ const { TextArea } = Input;
 const DetailArticle = () => {
     const location = useLocation();
     const [detailPost, setDetailPost] = useState('');
+    const [btnStatus, setBtnStatus] = useState('publish')
+    const [messageApi, contextHolder] = message.useMessage();
+    const navigate = useNavigate();
 
     const fetchDetail = () => {
         const idPost = location.pathname.split('/article/')[1];
@@ -20,7 +23,6 @@ const DetailArticle = () => {
 
     useEffect(() => {
         if (location.state == null) {
-            console.log('fetch detail bro');
             fetchDetail();
         } else {
             setDetailPost(location.state);
@@ -28,13 +30,44 @@ const DetailArticle = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleUpdatePost = (e) => {
+        console.log('handleUpdatePost', e);
+        messageApi.open({
+            key: 'create',
+            type: 'loading',
+            content: 'Loading...',
+        })
+        axios.patch(`${process.env.REACT_APP_BE_URL}article/${detailPost.id}`, { ...e, status: btnStatus })
+            .then(res => {
+                const { data: { message } } = res;
+                setTimeout(() => {
+                    messageApi.open({
+                        key: 'create',
+                        type: 'success',
+                        content: message,
+                    })
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 1000);
+                }, 1000);
+            })
+            .catch(err => {
+                messageApi.open({
+                    key: 'create',
+                    type: 'error',
+                    content: err.message,
+                });
+            })
+    }
+
     return (
         <>
+            {contextHolder}
             <Title level={2}>Detail Article Post</Title>
             {
                 detailPost !== "" &&
                 <Form
-                    onFinish={(e) => console.log(e)}
+                    onFinish={(e) => handleUpdatePost(e)}
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 14 }}
                     layout="vertical"
@@ -58,12 +91,12 @@ const DetailArticle = () => {
                     </Form.Item>
                     <Row gutter={[12, 0]}>
                         <Col>
-                            <Button type="primary" htmlType="submit">
-                                Update
+                            <Button type="primary" htmlType="submit" onClick={() => setBtnStatus('publish')}>
+                                Create
                             </Button>
                         </Col>
                         <Col>
-                            <Button type="default" htmlType="submit">
+                            <Button type="default" htmlType="submit" onClick={() => setBtnStatus('draft')}>
                                 Draft
                             </Button>
                         </Col>
