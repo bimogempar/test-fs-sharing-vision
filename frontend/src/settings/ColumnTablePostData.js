@@ -1,7 +1,7 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Col, Row, Tag } from "antd";
+import { Col, Popconfirm, Row, Tag } from "antd";
 
-export const ColumnTablePostData = ({ navigate, filter }) => [
+export const ColumnTablePostData = ({ navigate, filter, handleDelete }) => [
     {
         title: 'Title',
         dataIndex: 'title',
@@ -51,10 +51,17 @@ export const ColumnTablePostData = ({ navigate, filter }) => [
                     </Col>
                     {
                         <Col>
-                            <DeleteTwoTone
-                                twoToneColor={'red'}
-                                onClick={() => console.log(record)}
-                            />
+                            <Popconfirm
+                                title="Delete the post"
+                                description="Are you sure to delete this post?"
+                                onConfirm={() => handleDelete(record)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <DeleteTwoTone
+                                    twoToneColor={'red'}
+                                />
+                            </Popconfirm>
                         </Col>
                     }
                 </Row>

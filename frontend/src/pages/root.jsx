@@ -46,6 +46,32 @@ const Root = () => {
             })
     }
 
+    const handleDeleteArticle = (e) => {
+        messageApi.open({
+            key: 'create',
+            type: 'loading',
+            content: 'Loading...',
+        })
+        axios.patch(`${process.env.REACT_APP_BE_URL}article/${e.id}`, { ...e, status: 'trash' })
+            .then(res => {
+                setTimeout(() => {
+                    setData(prev => prev.filter(x => x.id !== e.id))
+                    messageApi.open({
+                        key: 'create',
+                        type: 'success',
+                        content: 'Post deleted successfully',
+                    })
+                }, 1000);
+            })
+            .catch(err => {
+                messageApi.open({
+                    key: 'create',
+                    type: 'error',
+                    content: err.message,
+                });
+            })
+    }
+
     useEffect(() => {
         fetchTable();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +99,7 @@ const Root = () => {
                 >
                     <TablePosts
                         loading={loadingTable}
-                        columns={ColumnTablePostData({ navigate, filter })}
+                        columns={ColumnTablePostData({ navigate, filter, handleDelete: handleDeleteArticle })}
                         data={data}
                     />
                 </Col>
