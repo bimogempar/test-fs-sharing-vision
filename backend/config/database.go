@@ -2,6 +2,7 @@ package config
 
 import (
 	"backend-rest-api/module/models"
+	"backend-rest-api/utils"
 	"fmt"
 
 	"gorm.io/driver/mysql"
@@ -9,11 +10,13 @@ import (
 )
 
 func InitDB() *gorm.DB {
-	USER := "root"
-	PASS := ""
-	HOST := "localhost"
-	PORT := "3306"
-	DBNAME := "blog-post-crud"
+	var (
+		USER   = utils.GetEnvVariable("DB_USER")
+		PASS   = utils.GetEnvVariable("DB_PASS")
+		HOST   = utils.GetEnvVariable("DB_HOST")
+		PORT   = utils.GetEnvVariable("DB_PORT")
+		DBNAME = utils.GetEnvVariable("DB_DBNAME")
+	)
 	URL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", USER, PASS, HOST, PORT, DBNAME)
 	db, err := gorm.Open(mysql.Open(URL))
 	if err != nil {
