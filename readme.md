@@ -12,3 +12,6 @@ RUNNING FE
 - cp .env.example .env.local 
 - masukkan setting environment app dan url pada .env.local
 - npm start
+
+LINK COLLECTION POSTMAN
+- https://elements.getpostman.com/redirect?entityId=16471792-a47cf0e4-05a4-4373-a7da-a84f1249bac1&entityType=collection
