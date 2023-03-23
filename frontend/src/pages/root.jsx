@@ -4,6 +4,7 @@ import TablePosts from '../components/TablePosts';
 import { ColumnTablePostData } from '../settings/ColumnTablePostData';
 import { OptionTab } from '../settings/OptionTab';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const { Title } = Typography;
 
 const Root = () => {
@@ -11,12 +12,13 @@ const Root = () => {
     const [loadingTable, setLoadingTable] = useState(false);
     const [filter, setFilter] = useState('publish');
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
     const fetchTable = () => {
         setLoadingTable(true);
         axios.get(`${process.env.REACT_APP_BE_URL}article`)
             .then(res => {
-                const { data: { data: newData, message } } = res
+                const { data: { data: newData } } = res
                 if (newData.length > 0) {
                     switch (filter) {
                         case 'publish':
@@ -35,10 +37,6 @@ const Root = () => {
                     setData([]);
                 }
                 setLoadingTable(false);
-                messageApi.open({
-                    type: 'success',
-                    content: message,
-                })
             }).catch(err => {
                 const { err: { message } } = err;
                 messageApi.open({
@@ -72,7 +70,7 @@ const Root = () => {
                 >
                     <TablePosts
                         loading={loadingTable}
-                        columns={ColumnTablePostData}
+                        columns={ColumnTablePostData({ navigate })}
                         data={data}
                     />
                 </Col>

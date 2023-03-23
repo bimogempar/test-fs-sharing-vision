@@ -1,7 +1,7 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { Col, Row, Tag } from "antd";
 
-export const ColumnTablePostData = [
+export const ColumnTablePostData = ({ navigate }) => [
     {
         title: 'Title',
         dataIndex: 'title',
@@ -45,7 +45,7 @@ export const ColumnTablePostData = [
             <Row gutter={[24, 0]}>
                 <Col>
                     <EditTwoTone
-                        onClick={() => console.log(record)}
+                        onClick={() => navigate(`/article/${record.id}`, { state: record })}
                     />
                 </Col>
                 <Col>

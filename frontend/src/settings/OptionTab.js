@@ -1,14 +1,14 @@
 export const OptionTab = [
     {
-        label: `Publish`,
+        label: `Published`,
         key: 'publish',
     },
     {
-        label: `Draft`,
+        label: `Drafts`,
         key: 'draft',
     },
     {
-        label: `Trash`,
+        label: `Trashed`,
         key: 'trash',
     },
 ];
