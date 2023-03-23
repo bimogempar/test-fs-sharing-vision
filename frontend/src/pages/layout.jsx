@@ -19,7 +19,7 @@ const Layout = () => {
                 xl={16}
                 style={{ padding: '15px' }}
             >
-                {location.pathname !== '/' && <Button style={{ marginBottom: '8px' }} type='default' shape='circle' onClick={() => navigate(-1)} icon={<ArrowLeftOutlined />} />}
+                {location.pathname !== '/' && <Button style={{ marginBottom: '24px' }} type='default' shape='circle' onClick={() => navigate(-1)} icon={<ArrowLeftOutlined />} />}
                 <Outlet />
             </Col>
         </Row>

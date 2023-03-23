@@ -1,7 +1,7 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { Col, Row, Tag } from "antd";
 
-export const ColumnTablePostData = ({ navigate }) => [
+export const ColumnTablePostData = ({ navigate, filter }) => [
     {
         title: 'Title',
         dataIndex: 'title',
@@ -39,22 +39,26 @@ export const ColumnTablePostData = ({ navigate }) => [
         }
     },
     {
-        title: 'Action',
-        key: 'action',
-        render: record => (
-            <Row gutter={[24, 0]}>
-                <Col>
-                    <EditTwoTone
-                        onClick={() => navigate(`/article/${record.id}`, { state: record })}
-                    />
-                </Col>
-                <Col>
-                    <DeleteTwoTone
-                        twoToneColor={'red'}
-                        onClick={() => console.log(record)}
-                    />
-                </Col>
-            </Row>
-        )
+        ...(filter !== 'trash' && {
+            title: 'Action',
+            key: 'action',
+            render: record => (
+                <Row gutter={[24, 0]}>
+                    <Col>
+                        <EditTwoTone
+                            onClick={() => navigate(`/article/${record.id}`, { state: record })}
+                        />
+                    </Col>
+                    {
+                        <Col>
+                            <DeleteTwoTone
+                                twoToneColor={'red'}
+                                onClick={() => console.log(record)}
+                            />
+                        </Col>
+                    }
+                </Row>
+            )
+        })
     },
 ]

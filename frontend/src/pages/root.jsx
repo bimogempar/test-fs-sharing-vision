@@ -1,4 +1,4 @@
-import { Col, Row, Typography, Tabs, message } from 'antd';
+import { Col, Row, Typography, Tabs, message, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import TablePosts from '../components/TablePosts';
 import { ColumnTablePostData } from '../settings/ColumnTablePostData';
@@ -55,7 +55,7 @@ const Root = () => {
         <>
             <Title level={2}>All Posts</Title>
             {contextHolder}
-            <Row>
+            <Row justify="space-between">
                 <Tabs
                     defaultActiveKey="1"
                     type="card"
@@ -63,6 +63,9 @@ const Root = () => {
                     items={OptionTab}
                     onChange={(e) => setFilter(e)}
                 />
+                <Button type='primary' onClick={() => navigate('/article/create')}>
+                    Add New
+                </Button>
             </Row>
             <Row>
                 <Col
@@ -70,7 +73,7 @@ const Root = () => {
                 >
                     <TablePosts
                         loading={loadingTable}
-                        columns={ColumnTablePostData({ navigate })}
+                        columns={ColumnTablePostData({ navigate, filter })}
                         data={data}
                     />
                 </Col>

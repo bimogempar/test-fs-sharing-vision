@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, Typography } from 'antd';
+import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { OptionStatus } from '../settings/OptionStatus';
 const { Title } = Typography;
 const { TextArea } = Input;
 
@@ -29,8 +28,6 @@ const DetailArticle = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log({ location, detailPost })
-
     return (
         <>
             <Title level={2}>Detail Article Post</Title>
@@ -48,7 +45,7 @@ const DetailArticle = () => {
                             defaultValue={detailPost.title}
                         />
                     </Form.Item>
-                    <Form.Item label="Content" name="content" initialValue={detailPost.content} rules={[{ required: true, min: 200 }]}>
+                    <Form.Item label="Content" name="content" initialValue={detailPost.content} rules={[{ required: true, min: 20 }]}>
                         <TextArea
                             defaultValue={detailPost.content}
                             rows={4}
@@ -57,12 +54,6 @@ const DetailArticle = () => {
                     <Form.Item label="Category" name="category" initialValue={detailPost.category} rules={[{ required: true, min: 3 }]}>
                         <Input
                             defaultValue={detailPost.category}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Status" name="status" initialValue={detailPost.status} rules={[{ required: true }]}>
-                        <Select
-                            defaultValue={detailPost.status}
-                            options={OptionStatus}
                         />
                     </Form.Item>
                     <Row gutter={[12, 0]}>
